@@ -11,6 +11,10 @@ const formatPriceForCell = (amount) => {
     : '+' + amount.toFixed(2).toString();
 };
 const isBalancePositive = (balance) => balance >= 0;
+const isAmountValid = (amount) => {
+  const result = parseFloat(amount);
+  return !Number.isNaN(result);
+};
 
 export {
   isEUR,
@@ -19,4 +23,5 @@ export {
   isCurrencySupported,
   formatPriceForCell,
   isBalancePositive,
+  isAmountValid,
 };

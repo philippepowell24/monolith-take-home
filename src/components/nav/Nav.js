@@ -8,7 +8,7 @@ const Nav = () => {
     <Container>
       <Inner>
         <Logo />
-        <Heading text="Dashboard" />
+        <Heading.One>Dashboard</Heading.One>
       </Inner>
     </Container>
   );

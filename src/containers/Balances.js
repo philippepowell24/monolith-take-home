@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { useTransition } from 'react-spring';
 import styled from 'styled-components';
 import { Loader, Paginator, Spacer, Table } from '../components';
@@ -54,6 +53,7 @@ const Balances = () => {
                 <Table.Header>USD</Table.Header>
                 <Table.Header>EUR</Table.Header>
                 <Table.Header>Last Activity</Table.Header>
+                <Table.Header>Valid</Table.Header>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -81,6 +81,15 @@ const Balances = () => {
                     {formatPriceForCell(e?.total?.EUR)}
                   </Table.Cell>
                   <Table.Cell>{e?.total?.lastActivity}</Table.Cell>
+                  <Table.Cell>
+                    <ValidityIndicator
+                      color={
+                        e?.total?.transactions_with_error?.length > 0
+                          ? 'red'
+                          : 'green'
+                      }
+                    />
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
@@ -106,13 +115,18 @@ const Balances = () => {
   );
 };
 
+const ValidityIndicator = styled.div`
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: ${({ color = 'white' }) => color};
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  /* background-color: pink; */
   height: 100%;
-  /* position: relative; */
 `;
 
 export default Balances;

@@ -1,8 +1,22 @@
 import React from 'react';
-import { HeadingOne } from './HeadingStyles';
+import {
+  Container,
+  HeadingOne,
+  HeadingThree,
+  HeadingTwo,
+} from './HeadingStyles';
 
-const Heading = ({ text }) => {
-  return <HeadingOne>{text}</HeadingOne>;
+export default function Heading({ children, ...restProps }) {
+  return <Container>{children}</Container>;
+}
+
+Heading.One = ({ children, ...restProps }) => {
+  return <HeadingOne {...restProps}>{children}</HeadingOne>;
+};
+Heading.Two = ({ children, ...restProps }) => {
+  return <HeadingTwo {...restProps}>{children}</HeadingTwo>;
 };
 
-export default Heading;
+Heading.Three = ({ children, ...restProps }) => {
+  return <HeadingThree {...restProps}>{children}</HeadingThree>;
+};

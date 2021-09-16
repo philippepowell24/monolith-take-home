@@ -10,7 +10,7 @@ const UserBalanceDetail = () => {
     <>
       <Container>
         <Spacer />
-        <Heading text={`User ID : ${params?.userId}`} />
+        <Heading.Two>{`User ID : ${params?.userId}`}</Heading.Two>
         <Spacer />
         <Transactions />
       </Container>
@@ -22,7 +22,7 @@ export default UserBalanceDetail;
 
 const Container = styled.div`
   width: ${({ width = '100%' }) => width};
-  height: ${({ height = '55vh' }) => height};
+  height: ${({ height = '100vh' }) => height};
   position: relative;
   grid-column: 2/12;
 `;

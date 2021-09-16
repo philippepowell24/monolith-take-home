@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 import { animated } from 'react-spring';
 
+const noSelection = `
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+`;
+
 const TableContainer = styled(animated.table)`
   border-collapse: collapse;
   width: 100%;
@@ -12,6 +21,7 @@ const TableContainer = styled(animated.table)`
 const TableHeader = styled.th`
   text-align: left;
   padding-bottom: 1rem;
+  ${({ noSelect = true }) => (noSelect ? noSelection : '')}
 `;
 
 const TableHead = styled.thead``;
@@ -40,7 +50,6 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  /* background-color: ${({ color = 'white' }) => color}; */
   color: ${({ color = 'black' }) => color};
   padding-left: 0.1rem;
   padding-right: 0.1rem;

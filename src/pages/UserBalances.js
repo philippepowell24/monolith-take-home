@@ -8,7 +8,7 @@ const UserBalances = () => {
     <>
       <Container>
         <Spacer />
-        <Heading text="User Balances" />
+        <Heading.Two>User Balances</Heading.Two>
         <Spacer />
         <Balances />
       </Container>

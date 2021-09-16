@@ -1,7 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { LARGE_TRANSACTIONS, SMALL_TRANSACTIONS } from '../constants/endpoints';
-import { isEUR, isGBP, isUSD } from '../helpers/currency';
+import {
+  isAmountValid,
+  isCurrencySupported,
+  isEUR,
+  isGBP,
+  isUSD,
+} from '../helpers/currency';
+import { ERROR } from '../constants/errors';
 
 const useTransactions = () => {
   // Local State
@@ -33,6 +40,7 @@ const useTransactions = () => {
     // Iterate over sorted transactions
     for (const transaction of sortedTransactions) {
       const { amount, currency, user_id, timestamp } = transaction;
+
       // If no existing user_id key inside transactionMap object, create an entry with default values
       if (!transactionMap[user_id]) {
         transactionMap[user_id] = {
@@ -41,11 +49,58 @@ const useTransactions = () => {
           USD: null,
           lastActivity: null,
           transactions: [],
+          transactions_with_error: [],
         };
       }
 
       // Store temporary pointer to specific user entry within transactionMap object
       let tmp = transactionMap[user_id];
+
+      // Handle one or more missing fields inside the transaction
+      if (!amount || !currency || !timestamp) {
+        transactionMap[user_id] = {
+          ...tmp,
+          transactions_with_error: [
+            ...tmp?.transactions_with_error,
+            {
+              transaction,
+              error: ERROR.MISSING_FIELDS,
+            },
+          ],
+        };
+        continue;
+      }
+
+      // Handle unsupported currency inside the 'currency' field
+      if (!isCurrencySupported(currency)) {
+        transactionMap[user_id] = {
+          ...tmp,
+          transactions_with_error: [
+            ...tmp?.transactions_with_error,
+            {
+              transaction,
+              error: ERROR.CURRENCY_NOT_SUPPORTED,
+            },
+          ],
+        };
+        continue;
+      }
+
+      // Handle invalid value for 'amount'
+      if (!isAmountValid(amount)) {
+        transactionMap[user_id] = {
+          ...tmp,
+          transactions_with_error: [
+            ...tmp?.transactions_with_error,
+            {
+              transaction,
+              error: ERROR.INVALID_AMOUNT,
+            },
+          ],
+        };
+        continue;
+      }
+
       // Append current transaction values to user entry
       // Add current transaction to list of user transactions (useful for single user view with detail on all individual transactions)
       transactionMap[user_id] = {
