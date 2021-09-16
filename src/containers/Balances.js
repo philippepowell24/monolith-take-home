@@ -6,15 +6,23 @@ import styled from 'styled-components';
 import { Loader, Paginator, Spacer, Table } from '../components';
 import { ROUTES } from '../constants/routes';
 import { formatPriceForCell, isBalancePositive } from '../helpers/currency';
+import {
+  paginateTransactions,
+  calcTotalNumberOfPages,
+} from '../helpers/pagination';
+import usePaginator from '../hooks/usePaginator';
 import useTransactions from '../hooks/useTransactions';
 
 const RESULTS_PER_PAGE = 10;
 
 const Balances = () => {
   const { processedTransactions, loading, error } = useTransactions();
+  const totalNumberOfPages = calcTotalNumberOfPages(
+    processedTransactions,
+    RESULTS_PER_PAGE
+  );
+  const [page, handlePaginatorClick] = usePaginator(totalNumberOfPages);
   const history = useHistory();
-  const [page, setPage] = React.useState(1);
-
   const transition = useTransition(page, {
     initial: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
     from: { opacity: 0, transform: 'translate3d(100%, 0, 0)' },
@@ -22,58 +30,34 @@ const Balances = () => {
     leave: { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
   });
 
-  const totalNumberOfPages = Math.ceil(
-    processedTransactions?.length / RESULTS_PER_PAGE
-  );
+  // const totalNumberOfPages = calcTotalNumberOfPages(
+  //   processedTransactions,
+  //   RESULTS_PER_PAGE
+  // );
 
-  const handlePaginatorClick = (direction) => {
-    switch (direction) {
-      case 'left': {
-        if (page > 1) {
-          setPage((prev) => prev - 1);
-        }
-        break;
-      }
-      case 'right': {
-        if (page < totalNumberOfPages) {
-          setPage((prev) => prev + 1);
-        }
-        break;
-      }
-      default: {
-      }
-    }
-  };
+  // const handlePaginatorClick = (direction) => {
+  //   switch (direction) {
+  //     case 'left': {
+  //       if (page > 1) {
+  //         setPage((prev) => prev - 1);
+  //       }
+  //       break;
+  //     }
+  //     case 'right': {
+  //       if (page < totalNumberOfPages) {
+  //         setPage((prev) => prev + 1);
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //     }
+  //   }
+  // };
 
-  const paginateTransactions = (
-    transactions,
-    totalNumberOfPages,
-    resultsPerPage = RESULTS_PER_PAGE
-  ) => {
-    const paginatedResult = [];
-    let start = 0;
-    let end = resultsPerPage;
-
-    // console.log(transactions?.slice(0, resultsPerPage));
-
-    for (let i = 0; i < totalNumberOfPages; i++) {
-      paginatedResult.push(transactions.slice(start, end));
-      start += resultsPerPage;
-      end += resultsPerPage;
-    }
-
-    // console.log({ totalNumberOfPages, paginatedResult });
-    return paginatedResult;
-  };
-
-  // console.log({ processedTransactions });
-
-  const transactions = React.useMemo(
+  const balances = React.useMemo(
     () => paginateTransactions(processedTransactions, totalNumberOfPages),
     [processedTransactions, totalNumberOfPages]
   );
-
-  // console.log({ transactions });
 
   if (loading) {
     return (
@@ -85,7 +69,7 @@ const Balances = () => {
   return (
     <Container>
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-        {transition((props, item, key) => (
+        {transition((props, _, key) => (
           <Table style={props} key={key}>
             <Table.Head>
               <Table.Row hover={false} pointer={false} opacity={1}>
@@ -96,9 +80,8 @@ const Balances = () => {
                 <Table.Header>Last Activity</Table.Header>
               </Table.Row>
             </Table.Head>
-            {/* <Spacer marginBottom={'1rem'} marginTop={'1rem'} /> */}
             <Table.Body>
-              {transactions[page - 1]?.map((e) => (
+              {balances[page - 1]?.map((e) => (
                 <Table.Row
                   key={e?.userId}
                   onClick={() =>
