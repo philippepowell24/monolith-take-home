@@ -30,30 +30,6 @@ const Balances = () => {
     leave: { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
   });
 
-  // const totalNumberOfPages = calcTotalNumberOfPages(
-  //   processedTransactions,
-  //   RESULTS_PER_PAGE
-  // );
-
-  // const handlePaginatorClick = (direction) => {
-  //   switch (direction) {
-  //     case 'left': {
-  //       if (page > 1) {
-  //         setPage((prev) => prev - 1);
-  //       }
-  //       break;
-  //     }
-  //     case 'right': {
-  //       if (page < totalNumberOfPages) {
-  //         setPage((prev) => prev + 1);
-  //       }
-  //       break;
-  //     }
-  //     default: {
-  //     }
-  //   }
-  // };
-
   const balances = React.useMemo(
     () => paginateTransactions(processedTransactions, totalNumberOfPages),
     [processedTransactions, totalNumberOfPages]

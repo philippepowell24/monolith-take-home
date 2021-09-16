@@ -10,7 +10,6 @@ const formatPriceForCell = (amount) => {
     ? amount.toFixed(2).toString()
     : '+' + amount.toFixed(2).toString();
 };
-
 const isBalancePositive = (balance) => balance >= 0;
 
 export {

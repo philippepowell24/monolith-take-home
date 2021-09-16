@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from './PaginatorStyles';
+import { Container, PaginatorText } from './PaginatorStyles';
 import * as Icon from 'react-feather';
 
 export default function Paginator({ children, ...restProps }) {
@@ -15,5 +15,5 @@ Paginator.Right = ({ ...restProps }) => {
 };
 
 Paginator.Text = ({ children, ...restProps }) => {
-  return <p>{children}</p>;
+  return <PaginatorText>{children}</PaginatorText>;
 };
