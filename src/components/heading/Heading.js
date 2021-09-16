@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Container,
+  HeadingFour,
   HeadingOne,
   HeadingThree,
   HeadingTwo,
@@ -19,4 +20,8 @@ Heading.Two = ({ children, ...restProps }) => {
 
 Heading.Three = ({ children, ...restProps }) => {
   return <HeadingThree {...restProps}>{children}</HeadingThree>;
+};
+
+Heading.Four = ({ children, ...restProps }) => {
+  return <HeadingFour {...restProps}>{children}</HeadingFour>;
 };

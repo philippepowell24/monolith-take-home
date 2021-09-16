@@ -3,7 +3,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Heading, Loader, Paginator, Spacer, Table } from '../components';
-import { formatPriceForCell, isBalancePositive } from '../helpers/currency';
+import {
+  formatPriceForCell,
+  isAmountValid,
+  isBalancePositive,
+} from '../helpers/currency';
 import {
   calcTotalNumberOfPages,
   paginateTransactions,
@@ -149,35 +153,44 @@ const Transactions = () => {
       <Heading.Three>Transaction Errors</Heading.Three>
       <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-        <Table>
-          <Table.Head>
-            <Table.Row hover={false} pointer={false} opacity={1}>
-              <Table.Header>Amount</Table.Header>
-              <Table.Header>Currency</Table.Header>
-              <Table.Header>Timestamp</Table.Header>
-              <Table.Header>Error</Table.Header>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body>
-            {userBalance?.total?.transactions_with_error?.map((e) => {
-              const amount = parseFloat(e?.amount);
-              return (
-                <Table.Row key={e?.amount} hover={false} pointer={false}>
-                  <Table.Cell
-                    color={isBalancePositive(amount) ? 'green' : 'red'}
+        {userBalance?.total?.transactions_with_error?.length > 0 ? (
+          <Table>
+            <Table.Head>
+              <Table.Row hover={false} pointer={false} opacity={1}>
+                <Table.Header>Amount</Table.Header>
+                <Table.Header>Currency</Table.Header>
+                <Table.Header>Timestamp</Table.Header>
+                <Table.Header>Error</Table.Header>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {userBalance?.total?.transactions_with_error?.map((e) => {
+                return (
+                  <Table.Row
+                    key={e?.transaction?.amount}
+                    hover={false}
+                    pointer={false}
                   >
-                    {formatPriceForCell(amount)}
-                  </Table.Cell>
-                  <Table.Cell>{e?.currency}</Table.Cell>
-                  <Table.Cell>{e?.timestamp}</Table.Cell>
-                </Table.Row>
-              );
-            })}
-            {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
-              <Table.Row fullHeight />
-            )}
-          </Table.Body>
-        </Table>
+                    <Table.Cell>
+                      {isAmountValid(e?.transaction?.amount)
+                        ? formatPriceForCell(e?.transaction?.amount)
+                        : e?.transaction?.amount}
+                    </Table.Cell>
+                    <Table.Cell>{e?.transaction?.currency}</Table.Cell>
+                    <Table.Cell>{e?.transaction?.timestamp}</Table.Cell>
+                  </Table.Row>
+                );
+              })}
+              {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
+                <Table.Row fullHeight />
+              )}
+            </Table.Body>
+          </Table>
+        ) : (
+          <Heading.Four>
+            There are no transaction errors to display
+          </Heading.Four>
+        )}
       </div>
     </Container>
   );

@@ -25,4 +25,9 @@ const HeadingThree = styled.h3`
   ${noSelection}
 `;
 
-export { HeadingOne, HeadingTwo, HeadingThree, Container };
+const HeadingFour = styled.h4`
+  cursor: default;
+  ${noSelection}
+`;
+
+export { HeadingOne, HeadingTwo, HeadingThree, HeadingFour, Container };

@@ -20,7 +20,7 @@ export default UserBalances;
 
 const Container = styled.div`
   width: ${({ width = '100%' }) => width};
-  height: ${({ height = '65vh' }) => height};
+  height: ${({ height = '75vh' }) => height};
   position: relative;
   grid-column: 2/12;
 `;
