@@ -9,7 +9,8 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
-import TransactionsAll from './pages/TransactionsAll';
+import UserBalances from './pages/UserBalances';
+import UserBalanceDetail from './pages/UserBalanceDetail';
 
 function App() {
   return (
@@ -21,11 +22,12 @@ function App() {
             <Redirect to={ROUTES.TRANSACTIONS_ALL} />
           </Route>
           <Route exact path={ROUTES.TRANSACTIONS_ALL}>
-            <TransactionsAll />
+            <UserBalances />
           </Route>
-          <Route path={ROUTES.TRANSACTIONS_DETAIL}>
-            <h1>Single User View</h1>
-          </Route>
+          <Route
+            path={`${ROUTES.TRANSACTIONS_DETAIL}:userId`}
+            component={UserBalanceDetail}
+          ></Route>
         </Switch>
       </Router>
     </Main>

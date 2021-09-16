@@ -1,0 +1,26 @@
+import React from 'react';
+import styled from 'styled-components';
+import { Heading, Spacer } from '../components';
+import Balances from '../containers/Balances';
+
+const UserBalances = () => {
+  return (
+    <>
+      <Container>
+        <Spacer />
+        <Heading text="User Balances" />
+        <Spacer />
+        <Balances />
+      </Container>
+    </>
+  );
+};
+
+export default UserBalances;
+
+const Container = styled.div`
+  width: ${({ width = '100%' }) => width};
+  height: ${({ height = '65vh' }) => height};
+  position: relative;
+  grid-column: 2/12;
+`;

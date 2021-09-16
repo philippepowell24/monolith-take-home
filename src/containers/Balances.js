@@ -10,7 +10,7 @@ import useTransactions from '../hooks/useTransactions';
 
 const RESULTS_PER_PAGE = 10;
 
-const Transactions = () => {
+const Balances = () => {
   const { processedTransactions, loading, error } = useTransactions();
   const history = useHistory();
   const [page, setPage] = React.useState(1);
@@ -156,4 +156,4 @@ const Container = styled.div`
   /* position: relative; */
 `;
 
-export default Transactions;
+export default Balances;
