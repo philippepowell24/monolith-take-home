@@ -11,8 +11,8 @@ const Container = styled.div`
     height: 20px;
     width: 20px;
     position: absolute;
-    top: 10%;
-    left: 10%;
+    top: 50%;
+    left: 50%;
     transform: translate3d(-50%, -50%, 0);
     will-change: transform;
   }

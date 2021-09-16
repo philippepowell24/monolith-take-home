@@ -4,15 +4,15 @@ const Logo = () => {
   return (
     <div
       style={{
-        width: '100%',
-        height: '100%',
+        // width: '100%',
+        // height: '100%',
         // padding: '2rem',
         // backgroundColor: 'green',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gridColumn: '2/3',
-        overflow: 'hidden',
+        // overflow: 'hidden',
+        height: 'inherit',
       }}
     >
       <img

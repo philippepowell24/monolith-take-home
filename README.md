@@ -76,6 +76,10 @@ faf4a6fe-c839-4ee3-ac11-ee3957ac6332       -       -  -3.99     1970-01-01
 // Add routing from overview to single transaction view
 // Fix of main container
 // Add error checking on amount + currecy type inside process transactions
+{
+"transaction": {},
+"error": ""
+}
 // Redo Table View to support compound component pattern
 
 ## Notes

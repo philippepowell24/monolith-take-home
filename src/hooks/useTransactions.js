@@ -90,7 +90,7 @@ const useTransactions = () => {
         );
       } finally {
         // simulate network response latency
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        // await new Promise((resolve) => setTimeout(resolve, 2500));
         setLoading(false);
       }
     })();
