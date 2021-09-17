@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTransition } from 'react-spring';
 import styled from 'styled-components';
-import { Loader, Paginator, Spacer, Table } from '../components';
+import { Error, Loader, Paginator, Spacer, Table } from '../components';
 import { ROUTES } from '../constants/routes';
 import { formatPriceForCell, isBalancePositive } from '../helpers/currency';
 import {
@@ -41,6 +41,15 @@ const Balances = () => {
       </Container>
     );
   }
+
+  if (error) {
+    return (
+      <Container>
+        <Error error={error} />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>

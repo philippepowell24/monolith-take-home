@@ -24,7 +24,6 @@ export default UserBalanceDetail;
 
 const Container = styled.div`
   width: ${({ width = '100%' }) => width};
-  /* height: ${({ height = '90vh' }) => height}; */
   position: relative;
   grid-column: 2/12;
   display: flex;

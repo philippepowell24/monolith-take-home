@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Error = () => {
-  return <div></div>;
+const Error = ({ error }) => {
+  return (
+    <div>
+      <p>{error}</p>
+    </div>
+  );
 };
 
 export default Error;

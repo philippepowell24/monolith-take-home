@@ -2,7 +2,14 @@ import { useTransition } from '@react-spring/core';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Heading, Loader, Paginator, Spacer, Table } from '../components';
+import {
+  Error,
+  Heading,
+  Loader,
+  Paginator,
+  Spacer,
+  Table,
+} from '../components';
 import {
   formatPriceForCell,
   isAmountValid,
@@ -54,6 +61,15 @@ const Transactions = () => {
       </Container>
     );
   }
+
+  if (error) {
+    return (
+      <Container>
+        <Error error={error} />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <div style={{ position: 'relative', flex: 2, width: '100%' }}>
