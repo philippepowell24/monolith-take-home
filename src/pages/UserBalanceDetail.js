@@ -9,9 +9,11 @@ const UserBalanceDetail = () => {
   return (
     <>
       <Container>
-        <Spacer />
-        <Heading.Two>{`User ID : ${params?.userId}`}</Heading.Two>
-        <Spacer />
+        <div>
+          <Spacer />
+          <Heading.Two>{`User ID : ${params?.userId}`}</Heading.Two>
+          <Spacer />
+        </div>
         <Transactions />
       </Container>
     </>
@@ -22,7 +24,10 @@ export default UserBalanceDetail;
 
 const Container = styled.div`
   width: ${({ width = '100%' }) => width};
-  height: ${({ height = '100vh' }) => height};
+  /* height: ${({ height = '90vh' }) => height}; */
   position: relative;
   grid-column: 2/12;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `;

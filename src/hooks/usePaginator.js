@@ -20,7 +20,7 @@ const usePaginator = (totalNumberOfPages) => {
       }
     }
   };
-  return [page, handlePaginatorClick];
+  return { page, handlePaginatorClick };
 };
 
 export default usePaginator;

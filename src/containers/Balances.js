@@ -20,7 +20,7 @@ const Balances = () => {
     processedTransactions,
     RESULTS_PER_PAGE
   );
-  const [page, handlePaginatorClick] = usePaginator(totalNumberOfPages);
+  const { page, handlePaginatorClick } = usePaginator(totalNumberOfPages);
   const history = useHistory();
   const transition = useTransition(page, {
     initial: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
@@ -45,7 +45,7 @@ const Balances = () => {
     <Container>
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
         {transition((props, _, key) => (
-          <Table style={props} key={key}>
+          <Table style={props} key={key} spacing={{ column: 0 }}>
             <Table.Head>
               <Table.Row hover={false} pointer={false} opacity={1}>
                 <Table.Header>User ID</Table.Header>

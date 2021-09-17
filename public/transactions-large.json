@@ -362,7 +362,7 @@
   {
     "user_id": "49adccea-00af-4be0-94ef-b9b88dc87e7b",
     "timestamp": "2020-08-17T11:34:34Z",
-    "currency": "EUR",
+    "currency": "AUD",
     "amount": "-903.04"
   },
   {
@@ -375,7 +375,7 @@
     "user_id": "49adccea-00af-4be0-94ef-b9b88dc87e7b",
     "timestamp": "2020-05-18T20:47:56Z",
     "currency": "GBP",
-    "amount": "+8.94"
+    "amount": "$%#+8.94"
   },
   {
     "user_id": "60c7890a-628f-4529-a505-2004bd3351b5",
@@ -482,7 +482,7 @@
   {
     "user_id": "49adccea-00af-4be0-94ef-b9b88dc87e7b",
     "timestamp": "2020-04-20T01:31:48Z",
-    "currency": "USD",
+    "currency": "",
     "amount": "-365.17"
   },
   {

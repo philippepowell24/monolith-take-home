@@ -28,7 +28,7 @@ const Transactions = () => {
     RESULTS_PER_PAGE
   );
 
-  const [page, handlePaginatorClick] = usePaginator(totalNumberOfPages);
+  const { page, handlePaginatorClick } = usePaginator(totalNumberOfPages);
 
   const transition = useTransition(page, {
     initial: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
@@ -56,7 +56,7 @@ const Transactions = () => {
   }
   return (
     <Container>
-      <div style={{ position: 'relative', height: '15%', width: '100%' }}>
+      <div style={{ position: 'relative', flex: 2, width: '100%' }}>
         <Heading.Three>Balance Overview</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
         <Table>
@@ -66,7 +66,8 @@ const Transactions = () => {
               <Table.Header>USD</Table.Header>
               <Table.Header>EUR</Table.Header>
               <Table.Header>Last Activity</Table.Header>
-              <Table.Header># Transactions</Table.Header>
+              <Table.Header>Total Transactions</Table.Header>
+              <Table.Header>Transactions With Error</Table.Header>
             </Table.Row>
           </Table.Head>
           <Table.Body>
@@ -94,65 +95,74 @@ const Transactions = () => {
               </Table.Cell>
               <Table.Cell>{userBalance?.total?.lastActivity}</Table.Cell>
               <Table.Cell>
-                {userBalance?.total?.transactions?.length}
+                {`${
+                  userBalance?.total?.transactions?.length +
+                  userBalance?.total?.transactions_with_error?.length
+                }`}
+              </Table.Cell>
+              <Table.Cell>
+                {userBalance?.total?.transactions_with_error?.length}
               </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
       </div>
-      <Spacer marginTop={'2.5rem'} marginBottom={'2.5rem'} />
-      <Heading.Three>All Transactions</Heading.Three>
-      <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
-      <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-        {transition((props, _, key) => (
-          <Table style={props}>
-            <Table.Head>
-              <Table.Row hover={false} pointer={false} opacity={1}>
-                <Table.Header>Amount</Table.Header>
-                <Table.Header>Currency</Table.Header>
-                <Table.Header>Timestamp</Table.Header>
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {transactions[page - 1]?.map((e) => {
-                const amount = parseFloat(e?.amount);
-                return (
-                  <Table.Row key={e?.amount} hover={false} pointer={false}>
-                    <Table.Cell
-                      color={isBalancePositive(amount) ? 'green' : 'red'}
-                    >
-                      {formatPriceForCell(amount)}
-                    </Table.Cell>
-                    <Table.Cell>{e?.currency}</Table.Cell>
-                    <Table.Cell>{e?.timestamp}</Table.Cell>
-                  </Table.Row>
-                );
-              })}
-              {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
-                <Table.Row fullHeight />
-              )}
-            </Table.Body>
-          </Table>
-        ))}
+      <div style={{ flex: 8, width: '100%' }}>
+        <Spacer marginTop={'4.5rem'} marginBottom={'4.5rem'} />
+        <Heading.Three>All Transactions</Heading.Three>
+        <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
+        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+          {transition((props, _, key) => (
+            <Table style={props}>
+              <Table.Head>
+                <Table.Row hover={false} pointer={false} opacity={1}>
+                  <Table.Header>Amount</Table.Header>
+                  <Table.Header>Currency</Table.Header>
+                  <Table.Header>Timestamp</Table.Header>
+                </Table.Row>
+              </Table.Head>
+              <Table.Body>
+                {transactions[page - 1]?.map((e) => {
+                  const amount = parseFloat(e?.amount);
+                  return (
+                    <Table.Row key={e?.amount} hover={false} pointer={false}>
+                      <Table.Cell
+                        color={isBalancePositive(amount) ? 'green' : 'red'}
+                      >
+                        {formatPriceForCell(amount)}
+                      </Table.Cell>
+                      <Table.Cell>{e?.currency}</Table.Cell>
+                      <Table.Cell>{e?.timestamp}</Table.Cell>
+                    </Table.Row>
+                  );
+                })}
+                {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
+                  <Table.Row fullHeight />
+                )}
+              </Table.Body>
+            </Table>
+          ))}
+        </div>
+        <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
+        <Paginator>
+          <Paginator.Left
+            onClick={() => handlePaginatorClick('left')}
+            style={{ opacity: page === 1 ? 0.2 : 1, cursor: 'pointer' }}
+          />
+          <Paginator.Text>{`${page} of ${totalNumberOfPages}`}</Paginator.Text>
+          <Paginator.Right
+            onClick={() => handlePaginatorClick('right')}
+            style={{
+              opacity: page === totalNumberOfPages ? 0.2 : 1,
+              cursor: 'pointer',
+            }}
+          />
+        </Paginator>
       </div>
-      <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
-      <Paginator>
-        <Paginator.Left
-          onClick={() => handlePaginatorClick('left')}
-          style={{ opacity: page === 1 ? 0.2 : 1, cursor: 'pointer' }}
-        />
-        <Paginator.Text>{`${page} of ${totalNumberOfPages}`}</Paginator.Text>
-        <Paginator.Right
-          onClick={() => handlePaginatorClick('right')}
-          style={{
-            opacity: page === totalNumberOfPages ? 0.2 : 1,
-            cursor: 'pointer',
-          }}
-        />
-      </Paginator>
-      <Heading.Three>Transaction Errors</Heading.Three>
-      <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
-      <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+      <div style={{ flex: 6, width: '100%' }}>
+        <Spacer marginTop={'8.5rem'} marginBottom={'8.5rem'} />
+        <Heading.Three>Transaction Errors</Heading.Three>
+        <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
         {userBalance?.total?.transactions_with_error?.length > 0 ? (
           <Table>
             <Table.Head>
@@ -200,9 +210,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  /* background-color: pink; */
+  align-items: flex-start;
   height: 100%;
-  /* position: relative; */
 `;
 
 export default Transactions;

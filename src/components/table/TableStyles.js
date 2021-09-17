@@ -11,16 +11,17 @@ user-select: none;
 `;
 
 const TableContainer = styled(animated.table)`
-  border-collapse: collapse;
   width: 100%;
   height: 100%;
-  /* background-color: khaki; */
+  border-collapse: separate;
+  border-spacing: ${({ spacing = { row: 0, column: 15 } }) =>
+    `${spacing.row}px ${spacing.column}px`};
   position: absolute;
 `;
 
 const TableHeader = styled.th`
   text-align: left;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   ${({ noSelect = true }) => (noSelect ? noSelection : '')}
 `;
 
@@ -51,10 +52,10 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   color: ${({ color = 'black' }) => color};
-  padding-left: 0.1rem;
+  /* padding-left: 0.1rem;
   padding-right: 0.1rem;
   padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.5rem; */
   border-bottom: 1px solid rgba(164, 164, 164, 0.25);
   text-align: left;
 `;
