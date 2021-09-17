@@ -72,15 +72,9 @@ faf4a6fe-c839-4ee3-ac11-ee3957ac6332       -       -  -3.99     1970-01-01
 - We assume the currencies are limited to: GBP, EUR, USD.
 
 **Please write down any other assumptions you need to make to continue the exercise.**
-// Add table content validation to ensure it is a float or int after reconversion from a string. IF it isnt, isolate transaction into an individual list to display on detail view
-// Add routing from overview to single transaction view
-// Fix of main container
-// Add error checking on amount + currecy type inside process transactions
-{
-"transaction": {},
-"error": ""
-}
-// Redo Table View to support compound component pattern
+
+- User ID will always be defined
+- Timestamp will always be in the correct format
 
 ## Notes
 
@@ -97,3 +91,13 @@ faf4a6fe-c839-4ee3-ac11-ee3957ac6332       -       -  -3.99     1970-01-01
 We don’t mean to take too much of your time. Our hope is this won't take more than a few hours, but we appreciate there is a lot of different pieces you can get stuck in. Don't stress if it's taking longer. We'd like to hear how long it took so we can better set expectations.
 
 We look forward to receiving your results. Good luck!
+
+## Completed Assignment Running and Installation
+
+- Run 'yarn' to install dependencies
+- Run 'yarn start' to launch the dev server
+- Run 'yarn test' to run the test suites
+
+## Additional info
+
+- Node.js version : 14.17.3
