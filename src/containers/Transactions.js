@@ -80,81 +80,144 @@ const Transactions = () => {
   }
 
   return (
-    <Container>
-      <div style={{ position: 'relative', flex: 2, width: '100%' }}>
-        {/* Main Balance Overview */}
+    <>
+      <div style={{ flex: 1 }}>
         <Heading.Three>Balance Overview</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
-        <Table>
-          <Table.Head>
-            <Table.Row hover={false} pointer={false} opacity={1}>
-              <Table.Header>GBP</Table.Header>
-              <Table.Header>USD</Table.Header>
-              <Table.Header>EUR</Table.Header>
-              <Table.Header>Last Activity</Table.Header>
-              <Table.Header>Total Transactions</Table.Header>
-              <Table.Header>Transactions With Error</Table.Header>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body>
-            <Table.Row key={userBalance?.userId} hover={false}>
-              <Table.Cell color={selectCellTextColor(userBalance?.total?.GBP)}>
-                {formatPriceForCell(userBalance?.total?.GBP)}
-              </Table.Cell>
-              <Table.Cell color={selectCellTextColor(userBalance?.total?.USD)}>
-                {formatPriceForCell(userBalance?.total?.USD)}
-              </Table.Cell>
-              <Table.Cell color={selectCellTextColor(userBalance?.total?.EUR)}>
-                {formatPriceForCell(userBalance?.total?.EUR)}
-              </Table.Cell>
-              <Table.Cell>{userBalance?.total?.lastActivity}</Table.Cell>
-              <Table.Cell>
-                {`${
-                  userBalance?.total?.transactions?.length +
-                  userBalance?.total?.transactions_with_error?.length
-                }`}
-              </Table.Cell>
-              <Table.Cell>
-                {userBalance?.total?.transactions_with_error?.length}
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
+        <Table position="relative">
+          <Table.Container>
+            <Table.Head>
+              <Table.Row hover={false} pointer={false} opacity={1}>
+                <Table.Header>GBP</Table.Header>
+                <Table.Header>USD</Table.Header>
+                <Table.Header>EUR</Table.Header>
+                <Table.Header>Last Activity</Table.Header>
+                <Table.Header>Total Transactions</Table.Header>
+                <Table.Header>Transactions With Error</Table.Header>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              <Table.Row key={userBalance?.userId} hover={false}>
+                <Table.Cell
+                  color={selectCellTextColor(userBalance?.total?.GBP)}
+                >
+                  {formatPriceForCell(userBalance?.total?.GBP)}
+                </Table.Cell>
+                <Table.Cell
+                  color={selectCellTextColor(userBalance?.total?.USD)}
+                >
+                  {formatPriceForCell(userBalance?.total?.USD)}
+                </Table.Cell>
+                <Table.Cell
+                  color={selectCellTextColor(userBalance?.total?.EUR)}
+                >
+                  {formatPriceForCell(userBalance?.total?.EUR)}
+                </Table.Cell>
+                <Table.Cell>{userBalance?.total?.lastActivity}</Table.Cell>
+                <Table.Cell>
+                  {`${
+                    userBalance?.total?.transactions?.length +
+                    userBalance?.total?.transactions_with_error?.length
+                  }`}
+                </Table.Cell>
+                <Table.Cell>
+                  {userBalance?.total?.transactions_with_error?.length}
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Container>
         </Table>
       </div>
-      <div style={{ flex: 8, width: '100%' }}>
-        <Spacer marginTop={'4.5rem'} marginBottom={'4.5rem'} />
-        <Heading.Three>All Transactions</Heading.Three>
+      <div style={{ flex: 6, width: '100%' }}>
+        <Spacer marginTop={'3.5rem'} marginBottom={'3.5rem'} />
+        <Heading.Three>Transaction Errors</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
-        {/* All User Transactions */}
-        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-          {transition((props, _, key) => (
-            <Table style={props}>
+        {/* Transactions with error table */}
+        {userBalance?.total?.transactions_with_error?.length > 0 ? (
+          <Table position="relative">
+            <Table.Container>
               <Table.Head>
                 <Table.Row hover={false} pointer={false} opacity={1}>
                   <Table.Header>Amount</Table.Header>
                   <Table.Header>Currency</Table.Header>
                   <Table.Header>Timestamp</Table.Header>
+                  <Table.Header>Error</Table.Header>
                 </Table.Row>
               </Table.Head>
               <Table.Body>
-                {transactions[page - 1]?.map((e) => {
-                  const amount = parseFloat(e?.amount);
+                {userBalance?.total?.transactions_with_error?.map((e) => {
                   return (
-                    <Table.Row key={e?.amount} hover={false} pointer={false}>
-                      <Table.Cell
-                        color={isBalancePositive(amount) ? 'green' : 'red'}
-                      >
-                        {formatPriceForCell(amount)}
+                    <Table.Row
+                      key={e?.transaction?.amount}
+                      hover={false}
+                      pointer={false}
+                    >
+                      <Table.Cell>
+                        {isAmountValid(e?.transaction?.amount)
+                          ? formatPriceForCell(
+                              parseFloat(e?.transaction?.amount)
+                            )
+                          : e?.transaction?.amount}
                       </Table.Cell>
-                      <Table.Cell>{e?.currency}</Table.Cell>
-                      <Table.Cell>{e?.timestamp}</Table.Cell>
+                      <Table.Cell>{e?.transaction?.currency}</Table.Cell>
+                      <Table.Cell>{e?.transaction?.timestamp}</Table.Cell>
+                      <Table.Cell color="red">{e?.error}</Table.Cell>
                     </Table.Row>
                   );
                 })}
-                {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
-                  <Table.Row fullHeight />
-                )}
+
+                <Table.Row fullHeight />
               </Table.Body>
+            </Table.Container>
+          </Table>
+        ) : (
+          <Heading.Four>
+            There are no transaction errors to display
+          </Heading.Four>
+        )}
+      </div>
+      <div
+        style={{
+          flex: 1,
+          width: '100%',
+          minHeight: '350px',
+        }}
+      >
+        <Spacer marginTop={'1.5rem'} marginBottom={'1.5rem'} />
+        <Heading.Three>All Transactions</Heading.Three>
+        <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
+        {/* All User Transactions */}
+        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+          {transition((props, _, key) => (
+            <Table style={props} key={key}>
+              <Table.Container>
+                <Table.Head>
+                  <Table.Row hover={false} pointer={false} opacity={1}>
+                    <Table.Header>Amount</Table.Header>
+                    <Table.Header>Currency</Table.Header>
+                    <Table.Header>Timestamp</Table.Header>
+                  </Table.Row>
+                </Table.Head>
+                <Table.Body>
+                  {transactions[page - 1]?.map((e) => {
+                    const amount = parseFloat(e?.amount);
+                    return (
+                      <Table.Row key={e?.amount} hover={false} pointer={false}>
+                        <Table.Cell
+                          color={isBalancePositive(amount) ? 'green' : 'red'}
+                        >
+                          {formatPriceForCell(amount)}
+                        </Table.Cell>
+                        <Table.Cell>{e?.currency}</Table.Cell>
+                        <Table.Cell>{e?.timestamp}</Table.Cell>
+                      </Table.Row>
+                    );
+                  })}
+                  {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
+                    <Table.Row fullHeight />
+                  )}
+                </Table.Body>
+              </Table.Container>
             </Table>
           ))}
         </div>
@@ -175,60 +238,17 @@ const Transactions = () => {
           />
         </Paginator>
       </div>
-      <div style={{ flex: 6, width: '100%' }}>
-        <Spacer marginTop={'8.5rem'} marginBottom={'8.5rem'} />
-        <Heading.Three>Transaction Errors</Heading.Three>
-        <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
-        {/* Transactions with error table */}
-        {userBalance?.total?.transactions_with_error?.length > 0 ? (
-          <Table>
-            <Table.Head>
-              <Table.Row hover={false} pointer={false} opacity={1}>
-                <Table.Header>Amount</Table.Header>
-                <Table.Header>Currency</Table.Header>
-                <Table.Header>Timestamp</Table.Header>
-                <Table.Header>Error</Table.Header>
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {userBalance?.total?.transactions_with_error?.map((e) => {
-                return (
-                  <Table.Row
-                    key={e?.transaction?.amount}
-                    hover={false}
-                    pointer={false}
-                  >
-                    <Table.Cell>
-                      {isAmountValid(e?.transaction?.amount)
-                        ? formatPriceForCell(parseFloat(e?.transaction?.amount))
-                        : e?.transaction?.amount}
-                    </Table.Cell>
-                    <Table.Cell>{e?.transaction?.currency}</Table.Cell>
-                    <Table.Cell>{e?.transaction?.timestamp}</Table.Cell>
-                    <Table.Cell color="red">{e?.error}</Table.Cell>
-                  </Table.Row>
-                );
-              })}
-
-              <Table.Row fullHeight />
-            </Table.Body>
-          </Table>
-        ) : (
-          <Heading.Four>
-            There are no transaction errors to display
-          </Heading.Four>
-        )}
-      </div>
-    </Container>
+      <Spacer marginTop={'10rem'} />
+    </>
   );
 };
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   flex: 1;
-  align-items: flex-start;
-  height: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 `;
 
 export default Transactions;

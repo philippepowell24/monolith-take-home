@@ -69,49 +69,51 @@ const Balances = () => {
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
         {/* List of user balances with transition config */}
         {transition((props, _, key) => (
-          <Table style={props} key={key} spacing={{ column: 0 }}>
-            <Table.Head>
-              <Table.Row hover={false} pointer={false} opacity={1}>
-                <Table.Header>User ID</Table.Header>
-                <Table.Header>GBP</Table.Header>
-                <Table.Header>USD</Table.Header>
-                <Table.Header>EUR</Table.Header>
-                <Table.Header>Last Activity</Table.Header>
-                <Table.Header>Valid</Table.Header>
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {balances[page - 1]?.map((e) => (
-                <Table.Row
-                  key={e?.userId}
-                  // Navigate to UserBalanceDetail
-                  onClick={() =>
-                    history.push(`${ROUTES.BALANCES_DETAIL}${e?.userId}`)
-                  }
-                >
-                  <Table.Cell>{e?.userId}</Table.Cell>
-                  <Table.Cell color={selectCellTextColor(e?.total?.GBP)}>
-                    {formatPriceForCell(e?.total?.GBP)}
-                  </Table.Cell>
-                  <Table.Cell color={selectCellTextColor(e?.total?.USD)}>
-                    {formatPriceForCell(e?.total?.USD)}
-                  </Table.Cell>
-                  <Table.Cell color={selectCellTextColor(e?.total?.EUR)}>
-                    {formatPriceForCell(e?.total?.EUR)}
-                  </Table.Cell>
-                  <Table.Cell>{e?.total?.lastActivity}</Table.Cell>
-                  <Table.Cell>
-                    <ValidityIndicator
-                      color={
-                        e?.total?.transactions_with_error?.length > 0
-                          ? 'red'
-                          : 'green'
-                      }
-                    />
-                  </Table.Cell>
+          <Table style={props} key={key}>
+            <Table.Container spacing={{ column: 0 }}>
+              <Table.Head>
+                <Table.Row hover={false} pointer={false} opacity={1}>
+                  <Table.Header>User ID</Table.Header>
+                  <Table.Header>GBP</Table.Header>
+                  <Table.Header>USD</Table.Header>
+                  <Table.Header>EUR</Table.Header>
+                  <Table.Header>Last Activity</Table.Header>
+                  <Table.Header>Valid</Table.Header>
                 </Table.Row>
-              ))}
-            </Table.Body>
+              </Table.Head>
+              <Table.Body>
+                {balances[page - 1]?.map((e) => (
+                  <Table.Row
+                    key={e?.userId}
+                    // Navigate to UserBalanceDetail
+                    onClick={() =>
+                      history.push(`${ROUTES.BALANCES_DETAIL}${e?.userId}`)
+                    }
+                  >
+                    <Table.Cell>{e?.userId}</Table.Cell>
+                    <Table.Cell color={selectCellTextColor(e?.total?.GBP)}>
+                      {formatPriceForCell(e?.total?.GBP)}
+                    </Table.Cell>
+                    <Table.Cell color={selectCellTextColor(e?.total?.USD)}>
+                      {formatPriceForCell(e?.total?.USD)}
+                    </Table.Cell>
+                    <Table.Cell color={selectCellTextColor(e?.total?.EUR)}>
+                      {formatPriceForCell(e?.total?.EUR)}
+                    </Table.Cell>
+                    <Table.Cell>{e?.total?.lastActivity}</Table.Cell>
+                    <Table.Cell>
+                      <ValidityIndicator
+                        color={
+                          e?.total?.transactions_with_error?.length > 0
+                            ? 'red'
+                            : 'green'
+                        }
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Container>
           </Table>
         ))}
       </div>
@@ -131,6 +133,7 @@ const Balances = () => {
           }}
         />
       </Paginator>
+      <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
     </Container>
   );
 };

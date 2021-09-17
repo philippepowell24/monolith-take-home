@@ -42,5 +42,5 @@ const Main = styled.main`
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 10vh 1fr;
+  grid-template-rows: 10vh;
 `;

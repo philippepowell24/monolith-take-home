@@ -10,13 +10,18 @@ const noSelection = `
 user-select: none;
 `;
 
+const Container = styled(animated.div)`
+  position: ${({ position = 'absolute' }) => position};
+  width: 100%;
+  height: 100%;
+`;
+
 const TableContainer = styled(animated.table)`
   width: 100%;
   height: 100%;
   border-collapse: separate;
   border-spacing: ${({ spacing = { row: 0, column: 15 } }) =>
     `${spacing.row}px ${spacing.column}px`};
-  position: absolute;
 `;
 
 const TableHeader = styled.th`
@@ -56,6 +61,7 @@ const TableCell = styled.td`
 `;
 
 export {
+  Container,
   TableContainer,
   TableRow,
   TableCell,

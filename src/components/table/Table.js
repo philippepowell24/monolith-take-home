@@ -6,11 +6,12 @@ import {
   TableBody,
   TableHeader,
   TableHead,
+  Container,
 } from './TableStyles';
 
 // Container
 export default function Table({ children, ...restProps }) {
-  return <TableContainer {...restProps}>{children}</TableContainer>;
+  return <Container {...restProps}>{children}</Container>;
 }
 
 // Table Row
@@ -36,4 +37,9 @@ Table.Header = ({ children, ...restProps }) => {
 // Table Body
 Table.Body = ({ children, ...restProps }) => {
   return <TableBody {...restProps}>{children}</TableBody>;
+};
+
+// Table Container
+Table.Container = ({ children, ...restProps }) => {
+  return <TableContainer {...restProps}>{children}</TableContainer>;
 };
