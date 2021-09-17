@@ -173,17 +173,17 @@ const Transactions = () => {
                   >
                     <Table.Cell>
                       {isAmountValid(e?.transaction?.amount)
-                        ? formatPriceForCell(e?.transaction?.amount)
+                        ? formatPriceForCell(parseFloat(e?.transaction?.amount))
                         : e?.transaction?.amount}
                     </Table.Cell>
                     <Table.Cell>{e?.transaction?.currency}</Table.Cell>
                     <Table.Cell>{e?.transaction?.timestamp}</Table.Cell>
+                    <Table.Cell color="red">{e?.error}</Table.Cell>
                   </Table.Row>
                 );
               })}
-              {transactions[page - 1]?.length < RESULTS_PER_PAGE && (
-                <Table.Row fullHeight />
-              )}
+
+              <Table.Row fullHeight />
             </Table.Body>
           </Table>
         ) : (
