@@ -1,7 +1,8 @@
+// Page routes
 const ROUTES = {
   HOME: '/',
-  TRANSACTIONS_ALL: '/transactions',
-  TRANSACTIONS_DETAIL: '/transactions/',
+  BALANCES_ALL: '/balances',
+  BALANCES_DETAIL: '/balances/',
 };
 
 export { ROUTES };

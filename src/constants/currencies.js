@@ -1,3 +1,4 @@
+// Currently supported currencies
 const CURRENCIES = {
   EUR: 'EUR',
   GBP: 'GBP',

@@ -1,6 +1,8 @@
+// Calculate total number of pages based on desired results per page
 const calcTotalNumberOfPages = (data = [], resultsPerPage = 10) =>
   Math.ceil(data?.length / resultsPerPage);
 
+// Process transactions to split them into equal arrays to display on different pages
 const paginateTransactions = (
   transactions,
   totalNumberOfPages,

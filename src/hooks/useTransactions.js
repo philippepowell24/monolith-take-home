@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { LARGE_TRANSACTIONS, SMALL_TRANSACTIONS } from '../constants/endpoints';
+import { LARGE_TRANSACTIONS } from '../constants/endpoints';
 import {
   isAmountValid,
   isCurrencySupported,

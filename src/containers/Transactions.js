@@ -10,33 +10,39 @@ import {
   Spacer,
   Table,
 } from '../components';
-import {
-  formatPriceForCell,
-  isAmountValid,
-  isBalancePositive,
-} from '../helpers/currency';
+import { isAmountValid, isBalancePositive } from '../helpers/currency';
 import {
   calcTotalNumberOfPages,
   paginateTransactions,
 } from '../helpers/pagination';
+import { formatPriceForCell, selectCellTextColor } from '../helpers/table';
 import usePaginator from '../hooks/usePaginator';
 import useTransactions from '../hooks/useTransactions';
 
 const RESULTS_PER_PAGE = 8;
 
 const Transactions = () => {
+  // Grab route params to access userId
   const params = useParams();
+
+  // Grab processed transactions
   const { processedTransactions, loading, error } = useTransactions();
+
+  // Find specific user balance based on userId
   const [userBalance] = processedTransactions.filter(
     (e) => e?.userId === params?.userId
   );
+
+  // Compute # of pages
   const totalNumberOfPages = calcTotalNumberOfPages(
     userBalance?.total?.transactions,
     RESULTS_PER_PAGE
   );
 
+  // Grab page state and pagination click handler
   const { page, handlePaginatorClick } = usePaginator(totalNumberOfPages);
 
+  // React spring transition animation config
   const transition = useTransition(page, {
     initial: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
     from: { opacity: 0, transform: 'translate3d(100%, 0, 0)' },
@@ -44,6 +50,7 @@ const Transactions = () => {
     leave: { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
   });
 
+  // Memoize paginated transaction entries to avoid recomputing on every render
   const transactions = React.useMemo(
     () =>
       paginateTransactions(
@@ -54,6 +61,7 @@ const Transactions = () => {
     [userBalance?.total?.transactions, totalNumberOfPages]
   );
 
+  // Handle network latency while fetching transactions
   if (loading) {
     return (
       <Container>
@@ -62,6 +70,7 @@ const Transactions = () => {
     );
   }
 
+  // Handle network error while fetching transactions
   if (error) {
     return (
       <Container>
@@ -73,6 +82,7 @@ const Transactions = () => {
   return (
     <Container>
       <div style={{ position: 'relative', flex: 2, width: '100%' }}>
+        {/* Main Balance Overview */}
         <Heading.Three>Balance Overview</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
         <Table>
@@ -88,25 +98,13 @@ const Transactions = () => {
           </Table.Head>
           <Table.Body>
             <Table.Row key={userBalance?.userId} hover={false}>
-              <Table.Cell
-                color={
-                  isBalancePositive(userBalance?.total?.GBP) ? 'green' : 'red'
-                }
-              >
+              <Table.Cell color={selectCellTextColor(userBalance?.total?.GBP)}>
                 {formatPriceForCell(userBalance?.total?.GBP)}
               </Table.Cell>
-              <Table.Cell
-                color={
-                  isBalancePositive(userBalance?.total?.USD) ? 'green' : 'red'
-                }
-              >
+              <Table.Cell color={selectCellTextColor(userBalance?.total?.USD)}>
                 {formatPriceForCell(userBalance?.total?.USD)}
               </Table.Cell>
-              <Table.Cell
-                color={
-                  isBalancePositive(userBalance?.total?.EUR) ? 'green' : 'red'
-                }
-              >
+              <Table.Cell color={selectCellTextColor(userBalance?.total?.EUR)}>
                 {formatPriceForCell(userBalance?.total?.EUR)}
               </Table.Cell>
               <Table.Cell>{userBalance?.total?.lastActivity}</Table.Cell>
@@ -127,6 +125,7 @@ const Transactions = () => {
         <Spacer marginTop={'4.5rem'} marginBottom={'4.5rem'} />
         <Heading.Three>All Transactions</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
+        {/* All User Transactions */}
         <div style={{ position: 'relative', height: '100%', width: '100%' }}>
           {transition((props, _, key) => (
             <Table style={props}>
@@ -160,6 +159,7 @@ const Transactions = () => {
           ))}
         </div>
         <Spacer marginTop={'0.5rem'} marginBottom={'1rem'} />
+        {/* Transaction pagination */}
         <Paginator>
           <Paginator.Left
             onClick={() => handlePaginatorClick('left')}
@@ -179,6 +179,7 @@ const Transactions = () => {
         <Spacer marginTop={'8.5rem'} marginBottom={'8.5rem'} />
         <Heading.Three>Transaction Errors</Heading.Three>
         <Spacer marginTop={'0.5rem'} marginBottom={'0.5rem'} />
+        {/* Transactions with error table */}
         {userBalance?.total?.transactions_with_error?.length > 0 ? (
           <Table>
             <Table.Head>

@@ -21,7 +21,6 @@ const TableContainer = styled(animated.table)`
 
 const TableHeader = styled.th`
   text-align: left;
-  /* padding-bottom: 1rem; */
   ${({ noSelect = true }) => (noSelect ? noSelection : '')}
 `;
 
@@ -52,27 +51,8 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   color: ${({ color = 'black' }) => color};
-  /* padding-left: 0.1rem;
-  padding-right: 0.1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem; */
   border-bottom: 1px solid rgba(164, 164, 164, 0.25);
   text-align: left;
-`;
-
-const TableButton = styled.button`
-  background-color: black;
-  outline: none;
-  border: none;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-  border-radius: 0.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
 `;
 
 export {
@@ -82,5 +62,4 @@ export {
   TableBody,
   TableHeader,
   TableHead,
-  TableButton,
 };

@@ -1,7 +1,11 @@
 import React from 'react';
 
 const usePaginator = (totalNumberOfPages) => {
+  // Local state
   const [page, setPage] = React.useState(1);
+
+  // Handle pagination click
+  // Only set state if page value within range of initial value and total number of pages
   const handlePaginatorClick = (direction) => {
     switch (direction) {
       case 'left': {
@@ -20,6 +24,7 @@ const usePaginator = (totalNumberOfPages) => {
       }
     }
   };
+
   return { page, handlePaginatorClick };
 };
 

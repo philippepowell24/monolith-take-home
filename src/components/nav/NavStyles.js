@@ -4,7 +4,6 @@ const Container = styled.nav`
   height: 100%;
   width: 100%;
   border-bottom: 0.5px solid rgba(164, 164, 164, 0.25);
-  /* background-color: purple; */
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: inherit;
@@ -16,7 +15,6 @@ const Inner = styled.div`
   grid-column: 2/11;
   display: flex;
   height: 100%;
-  /* background-color: red; */
   align-items: center;
 `;
 

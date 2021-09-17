@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { Table, Heading, Nav, Loader, Spacer } from './components';
-import useTransactions from './hooks/useTransactions';
+import { Nav } from './components';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
@@ -18,14 +16,15 @@ function App() {
       <Nav />
       <Router>
         <Switch>
+          {/* Redirect from home to /balances */}
           <Route exact path={ROUTES.HOME}>
-            <Redirect to={ROUTES.TRANSACTIONS_ALL} />
+            <Redirect to={ROUTES.BALANCES_ALL} />
           </Route>
-          <Route exact path={ROUTES.TRANSACTIONS_ALL}>
-            <UserBalances />
-          </Route>
+          {/* All user balances */}
+          <Route exact path={ROUTES.BALANCES_ALL} component={UserBalances} />
+          {/* User balance detail */}
           <Route
-            path={`${ROUTES.TRANSACTIONS_DETAIL}:userId`}
+            path={`${ROUTES.BALANCES_DETAIL}:userId`}
             component={UserBalanceDetail}
           ></Route>
         </Switch>
@@ -39,11 +38,9 @@ export default App;
 const Main = styled.main`
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   flex-direction: column;
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 10vh 1fr;
-  /* background-color: black; */
 `;
